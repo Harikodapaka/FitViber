@@ -1,9 +1,7 @@
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
-
-const googleClientId = process.env.GOOGLE_CLIENT_ID;
-const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
-const nextSecret = process.env.NEXTAUTH_SECRET;
+import authConfig from "@/auth.config";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { db } from "@/lib/db";
 
 export const {
 	handlers: { GET, POST },
@@ -11,11 +9,27 @@ export const {
 	signIn,
 	signOut,
 } = NextAuth({
-	providers: [
-		Google({
-			clientId: googleClientId,
-			clientSecret: googleClientSecret,
-		}),
-	],
-	secret: nextSecret,
+	events: {
+		async linkAccount({ user }) {
+			await db.user.update({
+				where: { id: user.id },
+				data: { emailVerified: new Date() },
+			});
+		},
+	},
+	callbacks: {
+		// @ts-ignore
+		async session({ token, session }) {
+			if (token.sub && session.user) {
+				session.user.id = token.sub;
+			}
+			return session;
+		},
+	},
+	adapter: PrismaAdapter(db),
+	session: {
+		strategy: "jwt",
+		maxAge: 1 * 24 * 60 * 60,
+	},
+	...authConfig,
 });
