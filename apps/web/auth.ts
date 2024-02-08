@@ -18,6 +18,7 @@ export const {
 		},
 	},
 	callbacks: {
+		// @ts-ignore
 		async session({ token, session }) {
 			if (token.sub && session.user) {
 				session.user.id = token.sub;
@@ -28,6 +29,7 @@ export const {
 	adapter: PrismaAdapter(db),
 	session: {
 		strategy: "jwt",
+		maxAge: 1 * 24 * 60 * 60,
 	},
 	...authConfig,
 });
