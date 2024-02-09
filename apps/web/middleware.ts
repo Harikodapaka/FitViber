@@ -2,12 +2,14 @@ import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
 export default auth((req) => {
+	if (req.nextUrl.pathname === "/auth/login") {
+		return null;
+	}
 	if (!req.auth) {
-		return NextResponse.redirect(new URL("/api/auth/signin", req.url));
+		return NextResponse.redirect(new URL("/auth/login", req.url));
 	}
 });
 
-// Optionally, don't invoke Middleware on some paths
 export const config = {
-	matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+	matcher: ["/((?!api|_next/static|_next/image|favicon.ico|images).*)"],
 };
