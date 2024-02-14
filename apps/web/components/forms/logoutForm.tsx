@@ -1,13 +1,10 @@
 import { logOut } from "@/actions/logout";
 import Button from "@/components/ui/button";
 
-export default function LogoutForm() {
+export default function LogoutForm({ className }: { className?: string }) {
 	return (
 		<form action={logOut}>
-			<Button
-				type="submit"
-				// className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-			>
+			<Button type="submit" className={className}>
 				Sign Out
 			</Button>
 		</form>

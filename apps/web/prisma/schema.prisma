@@ -21,8 +21,8 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  age           String?
-  weight        String?
+  age           Int?
+  weight        Int?
   role          UserRole  @default(USER)
   accounts      Account[]
   Workout       Workout[]
