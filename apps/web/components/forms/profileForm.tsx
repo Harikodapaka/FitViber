@@ -64,7 +64,7 @@ const ProfileForm = ({ user }: { user: User | null }) => {
 			<Button
 				type="submit"
 				disabled={!isDirty || !isValid || isSubmitting}
-				className="disabled:bg-gray-500 disabled:opacity-70 mt-4 w-full flex justify-center"
+				className="mt-4 w-full"
 			>
 				{isSubmitting ? (
 					<div role="status">
