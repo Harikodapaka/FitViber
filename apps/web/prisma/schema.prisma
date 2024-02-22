@@ -25,7 +25,7 @@ model User {
   weight        Int?
   role          UserRole  @default(USER)
   accounts      Account[]
-  Workout       Workout[]
+  workouts      Workout[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -38,16 +38,22 @@ enum WorkoutType {
   OTHER
 }
 
+enum WorkoutStatus {
+  INPROGRESS
+  COMPLETED
+}
+
 model Workout {
-  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
   duration  String?
   intensity String?
-  type      WorkoutType?
-  Exercise  Exercise[]
-  userId    String       @db.ObjectId
-  user      User         @relation(fields: [userId], references: [id])
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  status    WorkoutStatus
+  type      WorkoutType
+  exercises Exercise[]
+  userId    String        @db.ObjectId
+  user      User          @relation(fields: [userId], references: [id])
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 
   @@map("workouts")
 }

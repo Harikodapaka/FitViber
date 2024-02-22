@@ -6,7 +6,6 @@ import {
 	profileSchema,
 } from "@/components/forms/schemas/profileSchema";
 import { db } from "@/lib/db";
-import { z } from "zod";
 
 export const updateProfile = async (data: ProfileSchemaType) => {
 	const session = await auth();

@@ -8,13 +8,13 @@ interface ProtectedLayoutProps {
 
 const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
 	return (
-		<main className="h-screen flex flex-col bg-icedBlue-100">
+		<div className="h-screen flex flex-col bg-icedBlue-100">
 			<Header />
-			<div className="flex-1 flex justify-center overflow-auto p-2">
-				{children}
-			</div>
+			<main className="flex-1 p-2 overflow-auto">
+				<div className="mx-auto md:max-w-lg">{children}</div>
+			</main>
 			<Footer />
-		</main>
+		</div>
 	);
 };
 
