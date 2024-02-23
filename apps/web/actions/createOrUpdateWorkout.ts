@@ -6,8 +6,7 @@ import {
 } from "@/components/forms/schemas/workoutSchema";
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
-import { WorkoutStatus, WorkoutType } from "@prisma/client";
-import { ObjectId } from "mongodb";
+import { WorkoutStatus } from "@prisma/client";
 
 export const createOrUpdateWorkout = async (
 	data: WorkoutSchemaType,
@@ -23,6 +22,26 @@ export const createOrUpdateWorkout = async (
 	if (workoutId) {
 		try {
 			const response = await db.$transaction(async (tx) => {
+				const exercises = await tx.exercise.findMany({
+					where: { workoutId },
+					select: { id: true },
+				});
+				if (exercises.length) {
+					const exercisesToDelete = exercises.filter(
+						(e) => !data.exercises.some((exe) => exe.id === e.id)
+					);
+					if (exercisesToDelete.length) {
+						const deleteIds = exercisesToDelete.map((e) => e.id || "");
+						await tx.exercise.deleteMany({
+							where: {
+								id: {
+									in: deleteIds,
+								},
+							},
+						});
+					}
+				}
+
 				await tx.workout.update({
 					where: {
 						id: workoutId,
