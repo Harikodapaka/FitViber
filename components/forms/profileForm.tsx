@@ -36,7 +36,11 @@ const ProfileForm = ({ user }: { user: User | null }) => {
 		}
 	};
 	return (
-		<form className="mt-3" method="POST" onSubmit={handleSubmit(onSubmit)}>
+		<form
+			className="mt-3 flex-1"
+			method="POST"
+			onSubmit={handleSubmit(onSubmit)}
+		>
 			<div className="relative">
 				<Input
 					{...register("age", { required: true })}
