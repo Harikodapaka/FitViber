@@ -11,6 +11,7 @@ import Button from "../ui/button";
 import Input from "../ui/input";
 import { User } from "@prisma/client";
 import { TbFidgetSpinner } from "react-icons/tb";
+import { toast } from "sonner";
 
 const ProfileForm = ({ user }: { user: User | null }) => {
 	const {
@@ -27,13 +28,12 @@ const ProfileForm = ({ user }: { user: User | null }) => {
 	});
 
 	const onSubmit = async (data: ProfileSchemaType) => {
-		await updateProfile(data)
-			.then((data) => {
-				console.log(data);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		const response = await updateProfile(data);
+		if (response.ok) {
+			toast.success(response.message);
+		} else {
+			toast.error(response.message);
+		}
 	};
 	return (
 		<form className="mt-3" method="POST" onSubmit={handleSubmit(onSubmit)}>
