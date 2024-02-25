@@ -12,8 +12,8 @@ export const NavItems: NavBarItem[] = [
 		fillIcon: <AiFillHome size={32} fill="#0b64b3" />,
 	},
 	{
-		name: "add workout",
-		path: "/add-workout",
+		name: "Workout",
+		path: "/workout",
 		outlineIcon: <BsPlusCircle size={32} />,
 		fillIcon: <BsFillPlusCircleFill size={32} fill="#0b64b3" />,
 	},

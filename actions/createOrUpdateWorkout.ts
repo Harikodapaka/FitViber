@@ -7,6 +7,7 @@ import {
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import { WorkoutStatus } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export const createOrUpdateWorkout = async (
 	data: WorkoutSchemaType,
@@ -64,6 +65,7 @@ export const createOrUpdateWorkout = async (
 					});
 				}
 			});
+			revalidatePath("/workout");
 			const exercises = await db.exercise.findMany({
 				where: {
 					workoutId,
