@@ -5,7 +5,7 @@ import ErrorText from "./errorText";
 
 export default function LogIn() {
 	return (
-		<main className="relative flex min-h-screen flex-col justify-center overflow-hidden py-6 sm:py-12 bg-icedBlue-100">
+		<main className="relative flex h-screen flex-col justify-center overflow-hidden py-6 sm:py-12 bg-icedBlue-100">
 			<div className="relative bg-white px-6 pt-10 pb-8 m-2 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg rounded-lg sm:px-50 text-center md:min-w-96 flex flex-col items-center text-gray-600">
 				<Image
 					src="/images/logo.svg"

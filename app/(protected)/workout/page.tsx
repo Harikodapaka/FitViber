@@ -5,11 +5,7 @@ import StartWorkoutForm from "@/components/forms/startWorkoutForm";
 const AddWorkoutPage = async () => {
 	const session = await auth();
 	const workoutInProgress = await getWorkoutByUserIdStatus(session?.user?.id);
-	return (
-		<div>
-			<StartWorkoutForm workoutInProgress={workoutInProgress} />
-		</div>
-	);
+	return <StartWorkoutForm workoutInProgress={workoutInProgress} />;
 };
 
 export default AddWorkoutPage;
