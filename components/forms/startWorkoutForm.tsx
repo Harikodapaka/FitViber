@@ -12,6 +12,7 @@ import {
 } from "@/components/forms/schemas/workoutSchema";
 import { createOrUpdateWorkout } from "@/actions/createOrUpdateWorkout";
 import ExerciseForm from "@/components/forms/exerciseForm";
+import { toast } from "sonner";
 
 const StartWorkoutForm = ({
 	workoutInProgress,
@@ -36,6 +37,9 @@ const StartWorkoutForm = ({
 		const response = await createOrUpdateWorkout(data, workoutInProgress?.id);
 		if (response.ok) {
 			setValue("exercises", response.exercises || []);
+			toast.success(response.message);
+		} else {
+			toast.error(response.message);
 		}
 	};
 	return (

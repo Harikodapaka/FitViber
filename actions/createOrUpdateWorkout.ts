@@ -73,11 +73,11 @@ export const createOrUpdateWorkout = async (
 			});
 			return {
 				ok: true,
-				message: "Workout created successfully",
+				message: `Workout saved successfully`,
 				exercises,
 			};
 		} catch (err: any) {
-			return { error: err.message || "Saving Workout failed", ok: false };
+			return { message: err.message || "Saving workout failed", ok: false };
 		}
 	}
 	try {
@@ -93,8 +93,12 @@ export const createOrUpdateWorkout = async (
 				},
 			},
 		});
-		return { ok: true, message: "Workout created successfully" };
+		return {
+			ok: true,
+			message: "Workout created successfully",
+			exercises: data.exercises,
+		};
 	} catch (err: any) {
-		return { error: err.message || "Saving Workout failed", ok: false };
+		return { message: err.message || "Saving workout failed", ok: false };
 	}
 };

@@ -25,8 +25,8 @@ export const updateProfile = async (data: ProfileSchemaType) => {
 				weight: weight,
 			},
 		});
-		return { success: true, message: "Profile updated successfully" };
+		return { ok: true, message: "Profile updated successfully" };
 	} catch (err: any) {
-		return { error: err.message || "Failed to update profile" };
+		return { ok: false, message: err.message || "Failed to update profile" };
 	}
 };
