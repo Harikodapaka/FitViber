@@ -8,7 +8,7 @@ interface ProtectedLayoutProps {
 
 const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
 	return (
-		<div className="h-screen flex flex-col bg-icedBlue-100">
+		<div className="min-h-dvh flex flex-col bg-icedBlue-100">
 			<Toaster richColors position="top-center" />
 			<Header />
 			<main className="flex-1 p-2 overflow-auto">

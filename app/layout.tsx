@@ -18,9 +18,11 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body>{children}</body>
-			<SpeedInsights />
-			<Analytics />
+			<body>
+				{children}
+				<SpeedInsights />
+				<Analytics />
+			</body>
 		</html>
 	);
 }
