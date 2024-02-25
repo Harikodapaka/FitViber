@@ -87,9 +87,7 @@ export const createOrUpdateWorkout = async (
 				type: data.type,
 				status: WorkoutStatus.INPROGRESS,
 				exercises: {
-					create: data.exercises.map((exercise) => ({
-						...exercise,
-					})),
+					create: data.exercises.map(({ id, ...exercise }) => exercise),
 				},
 			},
 		});
