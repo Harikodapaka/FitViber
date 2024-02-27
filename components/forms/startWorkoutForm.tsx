@@ -2,41 +2,40 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { WorkoutType } from "@prisma/client";
+import { WorkoutWithExercises } from "@/prisma/types";
 import Button from "@/components/ui/button";
 import Select from "@/components/ui/select";
-import { WorkoutType } from "@prisma/client";
-import { TbFidgetSpinner } from "react-icons/tb";
+import ExerciseForm from "@/components/forms/exerciseForm";
 import {
 	WorkoutSchemaType,
 	workoutSchema,
 } from "@/components/forms/schemas/workoutSchema";
 import { createOrUpdateWorkout } from "@/actions/createOrUpdateWorkout";
-import ExerciseForm from "@/components/forms/exerciseForm";
-import { toast } from "sonner";
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const StartWorkoutForm = ({
 	workoutInProgress,
 }: {
-	workoutInProgress?: WorkoutSchemaType | null;
+	workoutInProgress?: WorkoutWithExercises | null;
 }) => {
 	const methods = useForm<WorkoutSchemaType>({
 		resolver: zodResolver(workoutSchema),
 		mode: "onTouched",
 		defaultValues: {
 			type: workoutInProgress?.type || WorkoutType.CARDIO,
-			exercises: workoutInProgress?.exercises || [],
+			exercises: workoutInProgress?.exercises,
 		},
 	});
 	const {
 		handleSubmit,
 		register,
 		formState: { errors, isSubmitting, isDirty, isValid },
-		setValue,
 	} = methods;
 	const onSubmit = async (data: WorkoutSchemaType) => {
 		const response = await createOrUpdateWorkout(data, workoutInProgress?.id);
 		if (response.ok) {
-			setValue("exercises", response.exercises || []);
 			toast.success(response.message);
 		} else {
 			toast.error(response.message);
@@ -68,6 +67,7 @@ const StartWorkoutForm = ({
 					/>
 					<ExerciseForm />
 				</div>
+				<p>{isValid}</p>
 				<Button
 					type="submit"
 					disabled={!isDirty || !isValid || isSubmitting}
@@ -78,7 +78,7 @@ const StartWorkoutForm = ({
 							<TbFidgetSpinner className="animate-spin" size={24} />
 						</div>
 					) : (
-						"Update Workout"
+						`${workoutInProgress ? "Update": "Start"} Workout`
 					)}
 				</Button>
 			</form>

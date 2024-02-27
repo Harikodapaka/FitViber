@@ -1,11 +1,11 @@
 import { useFieldArray, useFormContext } from "react-hook-form";
+import { WorkoutType } from "@prisma/client";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import Select from "@/components/ui/select";
 import Card from "@/components/ui/card";
-import { MdDelete } from "react-icons/md";
 import { WorkoutSchemaType } from "@/components/forms/schemas/workoutSchema";
-import { WorkoutType } from "@prisma/client";
+import { MdDelete } from "react-icons/md";
 import { GiWeightLiftingUp } from "react-icons/gi";
 
 export default function ExerciseForm() {
@@ -43,17 +43,18 @@ export default function ExerciseForm() {
 							<span className="sr-only">Delete Exercise {exercise.name}</span>
 						</Button>
 					</div>
-					<Input
-						id={`exercise-name-${i}`}
-						label="Exercise Name"
-						error={errors.exercises?.[i]?.name?.message}
-						required
-						{...register(`exercises.${i}.name`, { required: true })}
+												<Input
+								id={`exercise-name-${i}`}
+								label="Exercise Name"
+																error={errors.exercises?.[i]?.name?.message}
+								required
+							{...register(`exercises.${i}.name`, { required: true })}
 					/>
 					<Input
 						id={`exercise-duration-${i}`}
 						label="Exercise Duration"
 						error={errors.exercises?.[i]?.duration?.message}
+						addOnText="Mins"
 						required
 						{...register(`exercises.${i}.duration`, { required: true })}
 					/>
@@ -82,7 +83,8 @@ export default function ExerciseForm() {
 							<Input
 								id={`exercise-reps-${i}`}
 								label="Weight"
-								placeholder="Weight in Kgs"
+								placeholder="Weight in Lbs"
+								addOnText="Lbs"
 								error={errors.exercises?.[i]?.weight?.message}
 								{...register(`exercises.${i}.weight`)}
 							/>

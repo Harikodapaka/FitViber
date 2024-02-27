@@ -11,8 +11,8 @@ const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
 		<div className="h-dvh flex flex-col bg-icedBlue-100">
 			<Toaster richColors position="top-center" />
 			<Header />
-			<main className="flex-1 p-2 overflow-auto">
-				<div className="mx-auto md:max-w-lg">{children}</div>
+			<main className="flex flex-1 min-h-0">
+				<div className="flex-1 overflow-auto p-2">{children}</div>
 			</main>
 			<Footer />
 		</div>

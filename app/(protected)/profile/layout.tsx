@@ -1,5 +1,5 @@
 import LogoutForm from "@/components/forms/logoutForm";
-import ProfileHeader from "./profileHeader";
+import ProfileHeader from "@/app/(protected)/profile/profileHeader";
 
 interface ProfileLayoutProps {
 	children: React.ReactNode;
@@ -7,7 +7,7 @@ interface ProfileLayoutProps {
 
 const ProfileLayout = ({ children }: ProfileLayoutProps) => {
 	return (
-		<div className="flex flex-col gap-3 h-full">
+		<div className="container flex flex-col gap-3 h-full">
 			<ProfileHeader />
 			{children}
 			<LogoutForm className="w-full text-center" />
