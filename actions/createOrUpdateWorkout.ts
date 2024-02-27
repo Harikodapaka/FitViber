@@ -12,14 +12,17 @@ import { revalidatePath } from "next/cache";
 export const createOrUpdateWorkout = async (
 	data: WorkoutSchemaType,
 	workoutId?: string
-) => {
+): Promise<{
+	ok: boolean;
+	message: string;
+}> => {
 	const session = await auth();
 	const validatedFields = workoutSchema.safeParse(data);
 	if (!validatedFields.success)
-		return { ok: false, error: "Invalid workout details" };
+		return { ok: false, message: "Invalid workout details" };
 
 	if (!session?.user?.id)
-		return { ok: false, error: "User session is invalid" };
+		return { ok: false, message: "User session is invalid" };
 	if (workoutId) {
 		try {
 			const response = await db.$transaction(async (tx) => {
@@ -66,15 +69,9 @@ export const createOrUpdateWorkout = async (
 				}
 			});
 			revalidatePath("/workout");
-			const exercises = await db.exercise.findMany({
-				where: {
-					workoutId,
-				},
-			});
 			return {
 				ok: true,
 				message: `Workout saved successfully`,
-				exercises,
 			};
 		} catch (err: any) {
 			return { message: err.message || "Saving workout failed", ok: false };
@@ -90,11 +87,14 @@ export const createOrUpdateWorkout = async (
 					create: data.exercises.map(({ id, ...exercise }) => exercise),
 				},
 			},
+			select: {
+				exercises: true,
+			},
 		});
+		revalidatePath("/workout");
 		return {
 			ok: true,
 			message: "Workout created successfully",
-			exercises: data.exercises,
 		};
 	} catch (err: any) {
 		return { message: err.message || "Saving workout failed", ok: false };
