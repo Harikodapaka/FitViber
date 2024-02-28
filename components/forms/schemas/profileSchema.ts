@@ -1,3 +1,4 @@
+import { Gender } from "@prisma/client";
 import z from "zod";
 
 export const profileSchema = z.object({
@@ -16,7 +17,19 @@ export const profileSchema = z.object({
 		.gte(20, {
 			message: "Minimum weight must be grater than 20",
 		})
-		.lte(150, { message: "Maximum weight must be less than 150" }),
+		.lte(300, { message: "Maximum weight must be less than 300" }),
+	height: z.coerce
+		.number({
+			required_error: "Height is required",
+			invalid_type_error: "Height must be a number",
+		})
+		.gte(100, {
+			message: "Minimum height must be grater than 100",
+		})
+		.lte(500, { message: "Maximum height must be less than 500" }),
+	gender: z.nativeEnum(Gender, {
+		required_error: "Gender is required",
+	}),
 });
 
 export type ProfileSchemaType = z.infer<typeof profileSchema>;

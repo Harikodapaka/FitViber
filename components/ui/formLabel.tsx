@@ -2,11 +2,11 @@
 
 import React from "react";
 
-interface FormLabel extends React.LabelHTMLAttributes<HTMLLabelElement> {
+interface FormLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
 	text: string;
 	required?: boolean;
 }
-const FormLabel: React.FC<FormLabel> = ({ id, text, required, ...rest }) => {
+const FormLabel: React.FC<FormLabelProps> = ({ id, text, required, ...rest }) => {
 	return (
 		<label
 			htmlFor={id}

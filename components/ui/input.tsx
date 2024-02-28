@@ -10,10 +10,14 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	className?: string;
 	error?: string;
 	addOnText?: string;
+	containerClasses?: string;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-	({ id, label, className, error, addOnText, ...rest }, ref) => {
+	(
+		{ id, label, className, error, addOnText, containerClasses, ...rest },
+		ref
+	) => {
 		const classNames = cn(
 			"block h-10 w-full",
 			"outline-none rounded-md border-0 shadow-sm",
@@ -26,7 +30,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 			className
 		);
 		return (
-			<div className="my-2">
+			<div className={cn("my-2", containerClasses)}>
 				<FormLabel text={label} htmlFor={id} required={rest.required} />
 				<div className="mt-2 relative shadow-sm">
 					<input

@@ -2,7 +2,7 @@
 
 import React, { forwardRef } from "react";
 import FormLabel from "@/components/ui/formLabel";
-import { cn } from "@/lib/utils";
+import { capitalizeFirstLetter, cn } from "@/lib/utils";
 
 interface SelectOptions extends React.InputHTMLAttributes<HTMLOptionElement> {
 	value: string;
@@ -13,11 +13,15 @@ interface SelectProps extends React.InputHTMLAttributes<HTMLSelectElement> {
 	label: string;
 	options: SelectOptions[];
 	className?: string;
+	containerClasses?: string;
 	error?: string;
 }
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>(
-	({ id, label, options, className, error, ...rest }, ref) => {
+	(
+		{ id, label, options, className, error, containerClasses, ...rest },
+		ref
+	) => {
 		const classNames = cn(
 			"h-10 w-full block rounded-lg p-2.5",
 			"bg-gray-50",
@@ -26,8 +30,9 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
 			"focus:ring-2 focus:ring-inset focus:ring-blue-500",
 			className
 		);
+		
 		return (
-			<div>
+			<div className={containerClasses}>
 				<FormLabel text={label} htmlFor={id} required={rest.required} />
 				<div className="mt-2">
 					<select id={id} className={classNames} ref={ref} {...rest}>
@@ -35,7 +40,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
 							<option
 								{...option}
 								key={`${i}-${option.value || ""}`}
-								label={option.value.toLowerCase()}
+								label={capitalizeFirstLetter(option.value)}
 								value={option.value}
 							/>
 						))}

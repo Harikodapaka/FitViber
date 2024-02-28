@@ -25,7 +25,7 @@ export const createOrUpdateWorkout = async (
 		return { ok: false, message: "User session is invalid" };
 	if (workoutId) {
 		try {
-			const response = await db.$transaction(async (tx) => {
+			await db.$transaction(async (tx) => {
 				const exercises = await tx.exercise.findMany({
 					where: { workoutId },
 					select: { id: true },
@@ -58,6 +58,7 @@ export const createOrUpdateWorkout = async (
 					},
 				});
 				for (const exercise of data.exercises) {
+					// eslint-disable-next-line no-unused-vars
 					const { id, ...exeToUpdate } = exercise;
 					await db.exercise.upsert({
 						where: {
@@ -84,6 +85,7 @@ export const createOrUpdateWorkout = async (
 				type: data.type,
 				status: WorkoutStatus.INPROGRESS,
 				exercises: {
+					// eslint-disable-next-line no-unused-vars
 					create: data.exercises.map(({ id, ...exercise }) => exercise),
 				},
 			},

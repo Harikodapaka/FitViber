@@ -1,3 +1,4 @@
+import React from "react";
 import { Toaster } from "sonner";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
