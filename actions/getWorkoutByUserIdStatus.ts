@@ -20,6 +20,7 @@ export const getWorkoutByUserIdStatus = async (
 		});
 		return workout;
 	} catch (err: any) {
+		console.error("getWorkoutsByUserId error:", err.message);
 		return null;
 	}
 };
