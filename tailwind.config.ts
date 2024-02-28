@@ -28,6 +28,9 @@ const config: Config = {
 					100: "#e3e5ee",
 				},
 			},
+			screens:{
+				xs: '350px'
+			}
 		},
 	},
 	plugins: [],

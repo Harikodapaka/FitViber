@@ -15,6 +15,11 @@ enum UserRole {
   USER
 }
 
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
@@ -23,6 +28,8 @@ model User {
   image         String?
   age           Int?
   weight        Int?
+  height        Int?
+  gender        Gender?
   role          UserRole  @default(USER)
   accounts      Account[]
   workouts      Workout[]
@@ -35,6 +42,7 @@ model User {
 enum WorkoutType {
   CARDIO
   RESISTANCE
+  MIXED
   OTHER
 }
 
@@ -64,13 +72,15 @@ model Exercise {
   reps      Int?
   sets      Int?
   weight    Int?
-  duration  String?
+  duration  Int?
+  calories  Int?
   workoutId String   @db.ObjectId
   workout   Workout  @relation(fields: [workoutId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("exercises")
+  @@index(fields: [workoutId])
 }
 
 model Account {

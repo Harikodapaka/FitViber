@@ -1,3 +1,4 @@
+import React from "react";
 import LogoutForm from "@/components/forms/logoutForm";
 import ProfileHeader from "@/app/(protected)/profile/profileHeader";
 

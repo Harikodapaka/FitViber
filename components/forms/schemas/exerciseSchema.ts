@@ -7,30 +7,25 @@ export const exerciseSchema = z.object({
 		.string({
 			required_error: "Name is required",
 		})
-		.min(3),
-	reps: z.coerce
+		.min(3, { message: "Name requires 3 characters" }),
+	reps: z.coerce.number().nullable().optional(),
+	sets: z.coerce.number().nullable().optional(),
+	weight: z.coerce.number().nullable().optional(),
+	duration: z.coerce
+		.number()
+		.min(1, { message: "Minimum duration is 1 min" })
+		.nullable(),
+	calories: z.coerce
 		.number({
-			required_error: "Reps is required",
+			required_error: "Calories is required",
 		})
-		.nullable()
-		.optional(),
-	sets: z.coerce
-		.number({
-			required_error: "Sets is required",
+		.nonnegative({
+			message: "Calories must be positive number",
 		})
-		.nullable()
-		.optional(),
-	weight: z.coerce
-		.number({
-			required_error: "Weight is required",
+		.int({
+			message: "Calories must be a number",
 		})
-		.nullable()
-		.optional(),
-	duration: z
-		.string({
-			required_error: "Duration is required",
-		})
-		.min(1)
+		.gte(1, { message: "Calories is required" })
 		.nullable(),
 });
 

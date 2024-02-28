@@ -5,7 +5,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { WorkoutType } from "@prisma/client";
 import { WorkoutWithExercises } from "@/prisma/types";
-import Button from "@/components/ui/button";
 import Select from "@/components/ui/select";
 import ExerciseForm from "@/components/forms/exerciseForm";
 import {
@@ -13,7 +12,8 @@ import {
 	workoutSchema,
 } from "@/components/forms/schemas/workoutSchema";
 import { createOrUpdateWorkout } from "@/actions/createOrUpdateWorkout";
-import { TbFidgetSpinner } from "react-icons/tb";
+import { enumToOptions } from "@/lib/utils";
+import { SubmitButton } from "@/components/submitButton";
 
 const StartWorkoutForm = ({
 	workoutInProgress,
@@ -49,38 +49,19 @@ const StartWorkoutForm = ({
 						{...register("type", { required: true })}
 						label="Workout Type"
 						id="workout-type"
-						options={[
-							{
-								value: WorkoutType.CARDIO,
-								defaultChecked: true,
-							},
-							{
-								value: WorkoutType.RESISTANCE,
-							},
-							{
-								value: WorkoutType.OTHER,
-							},
-						]}
+						options={enumToOptions(WorkoutType, WorkoutType.CARDIO)}
 						placeholder="Select Workout Type"
 						error={errors.type?.message}
 						required
 					/>
 					<ExerciseForm />
 				</div>
-				<p>{isValid}</p>
-				<Button
-					type="submit"
+				<SubmitButton
 					disabled={!isDirty || !isValid || isSubmitting}
-					className="mt-4 w-full"
+					submitting={isSubmitting}
 				>
-					{isSubmitting ? (
-						<div role="status">
-							<TbFidgetSpinner className="animate-spin" size={24} />
-						</div>
-					) : (
-						`${workoutInProgress ? "Update": "Start"} Workout`
-					)}
-				</Button>
+					{`${workoutInProgress ? "Update" : "Start"} Workout`}
+				</SubmitButton>
 			</form>
 		</FormProvider>
 	);

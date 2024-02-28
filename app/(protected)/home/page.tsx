@@ -10,10 +10,24 @@ const HomePage = async () => {
 			<h1>Workout Summary</h1>
 			{workouts.length ? (
 				workouts?.map((workout) => (
-					<Card key={workout.id} className="my-2">
+					<Card key={workout.id} className="my-2 text-sm">
 						<p>Workout State: {workout.status}</p>
-						<p>Workout Duration: {workout.duration}</p>
 						<p>Workout Type: {workout.type}</p>
+						<hr className="my-2"/>
+						<p className="text-lg text-center">Exercises</p>
+						<hr className="my-2"/>
+						{workout.exercises.map((e) => (
+							<>
+								<p>Name: {e.name}</p>
+								<p>Calories Burned: {e.calories}</p>
+								{e.sets && (
+									<p>
+										Sets: {e.sets} | Reps: {e.reps}
+									</p>
+								)}
+								<hr className="my-2"/>
+							</>
+						))}
 					</Card>
 				))
 			) : (

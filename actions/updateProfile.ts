@@ -6,6 +6,7 @@ import {
 	profileSchema,
 } from "@/components/forms/schemas/profileSchema";
 import { db } from "@/lib/db";
+import { revalidatePath } from "next/cache";
 
 export const updateProfile = async (data: ProfileSchemaType) => {
 	const session = await auth();
@@ -13,7 +14,6 @@ export const updateProfile = async (data: ProfileSchemaType) => {
 
 	if (!validatedFields.success) return { error: "Invalid profile details" };
 
-	const { age, weight } = validatedFields.data;
 	if (!session?.user?.id) return { error: "User session is invalid" };
 	try {
 		await db.user.update({
@@ -21,10 +21,10 @@ export const updateProfile = async (data: ProfileSchemaType) => {
 				id: session?.user?.id,
 			},
 			data: {
-				age: age,
-				weight: weight,
+				...validatedFields.data,
 			},
 		});
+		revalidatePath('/profile');
 		return { ok: true, message: "Profile updated successfully" };
 	} catch (err: any) {
 		return { ok: false, message: err.message || "Failed to update profile" };

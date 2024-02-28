@@ -9,6 +9,9 @@ export const getWorkoutsByUserId = async (userId?: string) => {
 			where: {
 				userId,
 			},
+			include:{
+				exercises: true,
+			}
 		});
 		return workouts;
 	} catch (err: any) {

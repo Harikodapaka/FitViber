@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import NavBar from "@/components/ui/navbar";
 import { NavItems } from "@/components/navItems";
 
