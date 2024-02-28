@@ -94,11 +94,13 @@ export const createOrUpdateWorkout = async (
 			},
 		});
 		revalidatePath("/workout");
+		revalidatePath("/home");
 		return {
 			ok: true,
 			message: "Workout created successfully",
 		};
 	} catch (err: any) {
+		console.error("getWorkoutsByUserId error:", err.message);
 		return { message: err.message || "Saving workout failed", ok: false };
 	}
 };

@@ -15,6 +15,7 @@ export const getWorkoutsByUserId = async (userId?: string) => {
 		});
 		return workouts;
 	} catch (err: any) {
+		console.error("getWorkoutsByUserId error:", err.message);
 		return [];
 	}
 };
