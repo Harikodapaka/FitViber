@@ -1,9 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { WorkoutType } from "@prisma/client";
+import { WorkoutStatus, WorkoutType } from "@prisma/client";
 import { WorkoutWithExercises } from "@/prisma/types";
 import Select from "@/components/ui/select";
 import ExerciseForm from "@/components/forms/exerciseForm";
@@ -14,25 +15,49 @@ import {
 import { createOrUpdateWorkout } from "@/actions/createOrUpdateWorkout";
 import { enumToOptions } from "@/lib/utils";
 import { SubmitButton } from "@/components/submitButton";
+import Button from "@/components/ui/button";
+import { GiWeightLiftingUp, GiStopwatch } from "react-icons/gi";
+import { stopWorkout as _stopWorkout } from "@/actions/stopWorkout";
+import { useRouter } from "next/navigation";
 
 const StartWorkoutForm = ({
 	workoutInProgress,
 }: {
 	workoutInProgress?: WorkoutWithExercises | null;
 }) => {
+	const router = useRouter();
+
+	useEffect(() => {
+		reset({
+			type: workoutInProgress?.type,
+			status: workoutInProgress?.status,
+			exercises: workoutInProgress?.exercises,
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [workoutInProgress]);
+
 	const methods = useForm<WorkoutSchemaType>({
 		resolver: zodResolver(workoutSchema),
 		mode: "onTouched",
 		defaultValues: {
 			type: workoutInProgress?.type || WorkoutType.CARDIO,
-			exercises: workoutInProgress?.exercises,
+			status: workoutInProgress?.status || WorkoutStatus.INPROGRESS,
+			exercises: workoutInProgress?.exercises || [],
 		},
 	});
 	const {
 		handleSubmit,
 		register,
 		formState: { errors, isSubmitting, isDirty, isValid },
+		reset,
+		control,
 	} = methods;
+	const { fields, remove, append } = useFieldArray({
+		name: "exercises",
+		control,
+		keyName: "key",
+	});
+
 	const onSubmit = async (data: WorkoutSchemaType) => {
 		const response = await createOrUpdateWorkout(data, workoutInProgress?.id);
 		if (response.ok) {
@@ -41,6 +66,17 @@ const StartWorkoutForm = ({
 			toast.error(response.message);
 		}
 	};
+
+	const stopWorkout = async () => {
+		const response = await _stopWorkout(workoutInProgress?.id);
+		if (response.ok) {
+			toast.success(response.message);
+			router.push("/home");
+		} else {
+			toast.error(response.message);
+		}
+	};
+
 	return (
 		<FormProvider {...methods}>
 			<form className="mt-3" method="POST" onSubmit={handleSubmit(onSubmit)}>
@@ -54,7 +90,28 @@ const StartWorkoutForm = ({
 						error={errors.type?.message}
 						required
 					/>
-					<ExerciseForm />
+					<div className="flex">
+						<Button
+							onClick={() =>
+								append({ id: "", duration: 0, name: "", calories: 0 })
+							}
+							className="my-3 mx-auto gap-3"
+						>
+							<GiWeightLiftingUp size={20} aria-hidden />
+							<span>Add Exercise</span>
+						</Button>
+						{workoutInProgress?.id && (
+							<Button
+								type="button"
+								onClick={stopWorkout}
+								className="my-3 mx-auto bg-red-700 gap-3 hover:bg-red-600 focus:bg-red-600"
+							>
+								<GiStopwatch size={20} className="animate-bounce" aria-hidden />
+								<span>Stop Workout</span>
+							</Button>
+						)}
+					</div>
+					<ExerciseForm fields={fields} remove={remove} />
 				</div>
 				<SubmitButton
 					disabled={!isDirty || !isValid || isSubmitting}

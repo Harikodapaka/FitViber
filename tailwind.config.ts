@@ -27,10 +27,15 @@ const config: Config = {
 				icedBlue: {
 					100: "#e3e5ee",
 				},
+				"primary-blue": {
+					100: "#0f7fe2",
+					200: "#0b64b3",
+					hover: "#90baff",
+				},
 			},
-			screens:{
-				xs: '350px'
-			}
+			screens: {
+				xs: "350px",
+			},
 		},
 	},
 	plugins: [],
