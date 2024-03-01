@@ -10,9 +10,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 	({ children, className, ...rest }, ref) => {
 		const classNames = cn(
-			"bg-blue-500 hover:bg-blue-400 text-white",
+			"bg-primary-blue-200 hover:bg-primary-blue-100 text-white",
 			"disabled:bg-gray-500 disabled:opacity-70",
-			"focus:bg-blue-400 focus:ring-2 focus:ring-inset focus:ring-blue-500",
+			"focus:bg-primary-blue-100 focus:ring-2 focus:ring-inset focus:ring-primary-blue-hover",
 			"py-2 px-4 rounded-full",
 			"outline-none",
 			"flex items-center justify-center",

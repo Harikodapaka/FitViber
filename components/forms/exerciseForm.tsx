@@ -1,4 +1,8 @@
-import { useFieldArray, useFormContext } from "react-hook-form";
+import {
+	FieldArrayWithId,
+	UseFieldArrayRemove,
+	useFormContext,
+} from "react-hook-form";
 import { WorkoutType } from "@prisma/client";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
@@ -6,30 +10,24 @@ import Select from "@/components/ui/select";
 import Card from "@/components/ui/card";
 import { WorkoutSchemaType } from "@/components/forms/schemas/workoutSchema";
 import { MdDelete } from "react-icons/md";
-import { GiWeightLiftingUp } from "react-icons/gi";
 
-export default function ExerciseForm() {
+export default function ExerciseForm({
+	fields,
+	remove,
+}: {
+	remove: UseFieldArrayRemove;
+	fields: FieldArrayWithId<WorkoutSchemaType, "exercises", "key">[];
+}) {
 	const {
 		register,
-		control,
 		watch,
 		formState: { errors },
 	} = useFormContext<WorkoutSchemaType>();
-	const { fields, append, remove } = useFieldArray({
-		name: "exercises",
-		control,
-	});
+
 	const workoutType = watch("type");
 
 	return (
 		<>
-			<Button
-				onClick={() => append({ id: "", duration: 0, name: "", calories: 0 })}
-				className="my-3 mx-auto gap-3"
-			>
-				<GiWeightLiftingUp size={20} />
-				<span>Add Exercise</span>
-			</Button>
 			{fields.map((exercise, i) => (
 				<Card key={exercise.name + i} className="my-2">
 					<div className="flex justify-end absolute top-2 right-4">
@@ -53,6 +51,7 @@ export default function ExerciseForm() {
 					<div className="flex flex-col xs:flex-row xs:items-start xs:gap-3">
 						<Input
 							id={`exercise-duration-${i}`}
+							type="number"
 							label="Exercise Duration"
 							error={errors.exercises?.[i]?.duration?.message}
 							addOnText="Mins"
@@ -63,6 +62,7 @@ export default function ExerciseForm() {
 						/>
 						<Input
 							id={`exercise-calories-${i}`}
+							type="number"
 							label="Calories Burned"
 							containerClasses="flex-grow"
 							error={errors.exercises?.[i]?.calories?.message}
