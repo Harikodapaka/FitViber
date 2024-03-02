@@ -5,6 +5,9 @@ const withPWA = withPWAInit({
 	disable: false,
 	cacheOnFrontEndNav: true,
 	aggressiveFrontEndNavCaching: true,
+	workboxOptions: {
+		skipWaiting: true,
+	},
 });
 
 export default withPWA({

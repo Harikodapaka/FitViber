@@ -9,7 +9,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 const APP_NAME = "FitViber";
-const APP_DEFAULT_TITLE = "FitViber | Your workout wiz";
+const APP_DEFAULT_TITLE = "Your workout wiz";
 const APP_TITLE_TEMPLATE = "%s - FitViber";
 const APP_DESCRIPTION = "Your workout wiz";
 
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 	manifest: "/manifest.json",
 	appleWebApp: {
 		capable: true,
-		statusBarStyle: "default",
+		statusBarStyle: "black-translucent",
 		title: APP_DEFAULT_TITLE,
 		// startUpImage: [],
 	},
@@ -47,6 +47,7 @@ export const metadata: Metadata = {
 		},
 		description: APP_DESCRIPTION,
 	},
+	icons: { apple: "/icons/icon-ios-app.png" },
 };
 
 export const viewport: Viewport = {
