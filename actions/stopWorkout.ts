@@ -2,6 +2,7 @@
 
 import { db } from "@/lib/db";
 import { WorkoutStatus } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export const stopWorkout = async (workoutId?: string) => {
 	try {
@@ -15,6 +16,8 @@ export const stopWorkout = async (workoutId?: string) => {
 				status: WorkoutStatus.COMPLETED,
 			},
 		});
+		revalidatePath("/workout", "page");
+		revalidatePath("/home", "page");
 		return { ok: true, message: "Workout completed" };
 	} catch (err: any) {
 		console.error("stopWorkout error:", err.message);
