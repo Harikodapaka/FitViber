@@ -9,9 +9,12 @@ export const getWorkoutsByUserId = async (userId?: string) => {
 			where: {
 				userId,
 			},
-			include:{
+			include: {
 				exercises: true,
-			}
+			},
+			orderBy: {
+				createdAt: "desc",
+			},
 		});
 		return workouts;
 	} catch (err: any) {
