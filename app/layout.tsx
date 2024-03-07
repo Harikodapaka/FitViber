@@ -25,10 +25,7 @@ export const metadata: Metadata = {
 		capable: true,
 		statusBarStyle: "black-translucent",
 		title: APP_DEFAULT_TITLE,
-		// startUpImage: [],
-	},
-	formatDetection: {
-		telephone: false,
+		startupImage: ["/icons/icon-ios-app.png"],
 	},
 	icons: { apple: "/icons/icon-ios-app.png" },
 };
