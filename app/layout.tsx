@@ -5,7 +5,6 @@ import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-// eslint-disable-next-line no-unused-vars
 const inter = Inter({ subsets: ["latin"] });
 
 const APP_NAME = "FitViber";
@@ -41,7 +40,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body>
+			<body className={inter.className}>
 				{children}
 				<SpeedInsights />
 				<Analytics />
