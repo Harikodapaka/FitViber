@@ -1,6 +1,8 @@
 import { getWorkoutsByUserId } from "@/actions/getWorkoutsByUserId";
 import { auth } from "@/auth";
-import Card from "@/components/ui/card";
+import CollapsibleCard from "@/components/ui/collapsible-card";
+import { WorkoutCardBody } from "@/components/workoutCardBody";
+import { WorkoutCardHeader } from "@/components/workoutCardHeader";
 
 const HomePage = async () => {
 	const session = await auth();
@@ -10,25 +12,16 @@ const HomePage = async () => {
 			<h1>Workout Summary</h1>
 			{workouts.length ? (
 				workouts?.map((workout) => (
-					<Card key={workout.id} className="my-2 text-sm">
-						<p>Workout State: {workout.status}</p>
-						<p>Workout Type: {workout.type}</p>
+					<CollapsibleCard
+						key={workout.id}
+						className="my-2 text-sm"
+						header={<WorkoutCardHeader workout={workout} />}
+					>
 						<hr className="my-2" />
 						<p className="text-lg text-center">Exercises</p>
-						<hr className="my-2" />
-						{workout.exercises.map((e) => (
-							<div key={e.id}>
-								<p>Name: {e.name}</p>
-								<p>Calories Burned: {e.calories}</p>
-								{e.sets && (
-									<p>
-										Sets: {e.sets} | Reps: {e.reps}
-									</p>
-								)}
-								<hr className="my-2" />
-							</div>
-						))}
-					</Card>
+						{/* <hr className="my-2" /> */}
+						<WorkoutCardBody exercises={workout.exercises} />
+					</CollapsibleCard>
 				))
 			) : (
 				<p>No Workouts found</p>
