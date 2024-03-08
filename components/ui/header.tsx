@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const Header: React.FC = () => {
 	return (
-		<header className="bg-white py-2 flex justify-center shadow-md">
+		<header className="bg-white py-2 flex justify-center shadow-md z-10">
 			<div>
 				<Image
 					src="/images/logo.svg"
