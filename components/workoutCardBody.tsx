@@ -1,24 +1,25 @@
 import React from "react";
 import { Exercise } from "@prisma/client";
-import Card from "./ui/card";
+import Card from "@/components/ui/card";
+import Badge from "@/components/ui/badge";
 import { FaDumbbell } from "react-icons/fa6";
 
 export const WorkoutCardBody = ({ exercises }: { exercises: Exercise[] }) => {
 	return exercises.map((e) => (
-		<Card key={e.id} className="flex gap-3 my-2 bg-zinc-50">
-			<div className="flex w-10 h-10 rounded-full bg-primary-blue-200 items-center justify-center self-center">
+		<Card key={e.id} className="flex gap-3 my-2 ring-primary-blue-200/8">
+			<div className="flex w-10 h-10 rounded-full bg-primary-blue-200 items-center justify-center self-center shrink-0">
 				<FaDumbbell size={20} color="white" />
 			</div>
-			<div>
-				<p>Name: {e.name}</p>
-				<p>Duration: {e.duration} Mins</p>
-				<p>Calories Burned: {e.calories}</p>
-				{e.sets && (
-					<p>
-						Sets: {e.sets} | Reps: {e.reps}
-					</p>
-				)}
-				{e.weight && <p>Weight: {e.weight}</p>}
+
+			<div className="flex flex-col items-start">
+				<p className="text-2xl font-bold ml-1">{e.name}</p>
+				<div>
+					<Badge>⏱️ Duration: {e.duration} Mins</Badge>
+					<Badge>🔥 Calories: {e.calories}</Badge>
+					{e.sets && <Badge>💪 Sets: {e.sets}</Badge>}
+					{e.reps && <Badge>🔄 Reps: {e.reps}</Badge>}
+					{!!e.weight && <Badge>🏋️‍♂️ Weight: {e.weight} lbs</Badge>}
+				</div>
 			</div>
 		</Card>
 	));
