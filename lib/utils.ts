@@ -1,5 +1,8 @@
+import { WorkoutStatus, WorkoutType } from "@prisma/client";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+
+export const CALORIES_GOAL = 700;
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -23,4 +26,22 @@ export const capitalizeFirstLetter = (str: string) => {
 	}
 
 	return str.charAt(0).toUpperCase() + str.slice(1).toLocaleLowerCase();
+};
+
+export const hasValue = (input?: number | string | null) =>
+	!!input && input !== null;
+
+export const getStatusIcon = (status: WorkoutStatus) =>
+	status === WorkoutStatus.COMPLETED ? "✅" : "⏳";
+
+export const getWorkoutIcon = (type: WorkoutType) => {
+	if (type === WorkoutType.CARDIO) return "🫀";
+	if (type === WorkoutType.RESISTANCE) return "💪";
+	return `🫀 + 💪`;
+};
+export const calculateGoalPercentage = (calories?: number) => {
+	if (calories) {
+		return Math.round((calories / CALORIES_GOAL) * 100);
+	}
+	return 0;
 };

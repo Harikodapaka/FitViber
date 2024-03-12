@@ -51,6 +51,7 @@ const StartWorkoutForm = ({
 		formState: { errors, isSubmitting, isDirty, isValid },
 		reset,
 		control,
+		getValues,
 	} = methods;
 	const { fields, remove, append } = useFieldArray({
 		name: "exercises",
@@ -68,7 +69,19 @@ const StartWorkoutForm = ({
 	};
 
 	const stopWorkout = async () => {
-		const response = await _stopWorkout(workoutInProgress?.id);
+		const caloriesBurned = getValues("exercises").reduce(
+			(sum, e) => (e.calories ? sum + e.calories : sum),
+			0
+		);
+		const duration = getValues("exercises").reduce(
+			(sum, e) => (e.duration ? sum + e.duration : sum),
+			0
+		);
+		const response = await _stopWorkout(
+			workoutInProgress?.id,
+			Math.round(duration),
+			caloriesBurned
+		);
 		if (response.ok) {
 			toast.success(response.message);
 			router.push("/home");
