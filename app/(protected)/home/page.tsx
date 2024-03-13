@@ -1,6 +1,6 @@
 import { getWorkoutsByUserId } from "@/actions/getWorkoutsByUserId";
 import { auth } from "@/auth";
-import CollapsibleCard from "@/components/ui/collapsible-card";
+import CollapsibleCard from "@/components/ui/collapsibleCard";
 import { WorkoutCardBody } from "@/components/workoutCardBody";
 import { WorkoutCardHeader } from "@/components/workoutCardHeader";
 
@@ -9,22 +9,21 @@ const HomePage = async () => {
 	const workouts = await getWorkoutsByUserId(session?.user?.id);
 	return (
 		<div className="flex flex-col">
-			<h1>Workout Summary</h1>
+			<h1 className="text-lg font-bold">Workout Summary</h1>
 			{workouts.length ? (
 				workouts?.map((workout) => (
 					<CollapsibleCard
 						key={workout.id}
-						className="my-2 text-sm"
+						className="my-2 text-sm rounded-2xl"
 						header={<WorkoutCardHeader workout={workout} />}
 					>
-						<hr className="my-2" />
-						<p className="text-lg text-center">Exercises</p>
-						{/* <hr className="my-2" /> */}
+						<hr className="my-2 h-0.5 text-gray-400 bg-gray-400" />
+						<p className="text-lg text-center font-bold">Exercises</p>
 						<WorkoutCardBody exercises={workout.exercises} />
 					</CollapsibleCard>
 				))
 			) : (
-				<p>No Workouts found</p>
+				<p className="test-base">No Workouts found</p>
 			)}
 		</div>
 	);

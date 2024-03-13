@@ -40,7 +40,7 @@ const ProfileForm = ({ user }: { user: User | null }) => {
 	};
 	return (
 		<form
-			className="mt-3 flex-1 overflow-auto"
+			className="flex-1 overflow-auto"
 			method="POST"
 			onSubmit={handleSubmit(onSubmit)}
 		>

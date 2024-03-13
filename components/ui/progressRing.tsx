@@ -7,7 +7,9 @@ const ProgressRing = ({
 }) => {
 	const circleRadius = 40;
 	const circumference = 2 * Math.PI * circleRadius;
-	const progressOffset = circumference - (circumference * percentage) / 100;
+	const adjustedPercentage = percentage >= 100 ? 100 : percentage;
+	const progressOffset =
+		circumference - (circumference * adjustedPercentage) / 100;
 
 	return (
 		<svg className="w-full h-full" viewBox="0 0 100 100">
@@ -36,13 +38,12 @@ const ProgressRing = ({
 			{/* Center text */}
 			<text
 				x="50"
-				y="50"
-				fontFamily="Verdana"
-				fontSize="14"
+				y="51"
+				fontSize="16"
 				textAnchor="middle"
 				alignmentBaseline="middle"
 			>
-				{percentage}%
+				{percentage ? `${percentage}%` : "-"}
 			</text>
 		</svg>
 	);

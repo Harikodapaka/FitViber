@@ -8,7 +8,7 @@ interface ProfileLayoutProps {
 
 const ProfileLayout = ({ children }: ProfileLayoutProps) => {
 	return (
-		<div className="container flex flex-col gap-3 h-full">
+		<div className="container flex flex-col gap-1 h-full">
 			<ProfileHeader />
 			{children}
 			<LogoutForm className="w-full text-center" />

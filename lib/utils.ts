@@ -2,7 +2,7 @@ import { WorkoutStatus, WorkoutType } from "@prisma/client";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-export const CALORIES_GOAL = 700;
+export const CALORIES_GOAL = 550;
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -32,7 +32,7 @@ export const hasValue = (input?: number | string | null) =>
 	!!input && input !== null;
 
 export const getStatusIcon = (status: WorkoutStatus) =>
-	status === WorkoutStatus.COMPLETED ? "✅" : "⏳";
+	status === WorkoutStatus.COMPLETED ? "🟢" : "⏳";
 
 export const getWorkoutIcon = (type: WorkoutType) => {
 	if (type === WorkoutType.CARDIO) return "🫀";
