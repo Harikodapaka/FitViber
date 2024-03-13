@@ -9,65 +9,51 @@ import {
 	hasValue,
 } from "@/lib/utils";
 import ProgressRing from "@/components/ui/progressRing";
-
-const LabelValue = ({
-	label,
-	value,
-	className,
-}: {
-	label: string;
-	value: string;
-	className?: string;
-}) => {
-	const labelClasses = "text-sm text-primary-blue-200 font-bold";
-	const valueClasses = "text-base";
-
-	return (
-		<div className={className}>
-			<p className={labelClasses}>{label}</p>
-			<p className={valueClasses}>{value}</p>
-		</div>
-	);
-};
+import Badge from "@/components/ui/badge";
 
 export const WorkoutCardHeader = ({
 	workout: { status, type, createdAt, duration, totalCalories },
 }: {
 	workout: Workout;
 }) => {
+	const statusInprogress = status === WorkoutStatus.INPROGRESS;
 	return (
-		<div className="flex gap-3">
-			<div className="flex w-16 h-16 rounded-full items-center justify-center self-center shrink-0">
-				{status === WorkoutStatus.INPROGRESS ? (
+		<div className="flex gap-1">
+			<div className="w-full flex flex-col gap-2">
+				<div className="flex-1">
+					<Badge
+						className={`font-bold py-2 bg-violet-100 text-violet-800 ${
+							statusInprogress && "animate-pulse bg-red-100 text-red-800"
+						}`}
+					>
+						{getStatusIcon(status)} {capitalizeFirstLetter(status)}
+					</Badge>
+					<div className="flex gap-1 flex-wrap">
+						{hasValue(totalCalories) && (
+							<p className="text-2xl md:text-3xl/6 font-bold text-orange-600 mt-2">
+								{`🔥 ${totalCalories} Kcal`}
+							</p>
+						)}
+						<Badge className="text-sm mt-2 py-1 bg-gray-100 text-gray-800">
+							{`${getWorkoutIcon(type)} ${capitalizeFirstLetter(type)}`}
+						</Badge>
+						{hasValue(duration) && (
+							<Badge className="text-sm mt-2 py-1 bg-gray-100 text-gray-800">
+								{`⏰ ${duration} Mins`}
+							</Badge>
+						)}
+					</div>
+				</div>
+				<p className="text-xs text-gray-500">{`🗓️ ${createdAt.toDateString()}`}</p>
+			</div>
+			<div className="flex w-24 h-24 rounded-full items-center justify-center self-center shrink-0">
+				{statusInprogress ? (
 					<BsHeartPulseFill size={38} className="animate-pulse text-red-500" />
 				) : (
 					<ProgressRing
 						percentage={calculateGoalPercentage(totalCalories ?? 0)}
 					/>
 				)}
-			</div>
-			<div className="w-full grid grid-cols-2 md:grid-cols-4 gap-2">
-				<LabelValue
-					label="Status"
-					value={`${getStatusIcon(status)} ${capitalizeFirstLetter(status)}`}
-				/>
-				<LabelValue
-					label="Type"
-					value={`${getWorkoutIcon(type)} ${capitalizeFirstLetter(type)}`}
-				/>
-				<LabelValue
-					label="Duration"
-					value={hasValue(duration) ? `⏰ ${duration} Mins` : "-"}
-				/>
-				<LabelValue
-					label="Total Calories"
-					value={hasValue(totalCalories) ? `🔥 ${totalCalories}` : "-"}
-				/>
-				<LabelValue
-					label="Date"
-					value={`🗓️ ${createdAt.toDateString()}`}
-					className="col-span-2"
-				/>
 			</div>
 		</div>
 	);

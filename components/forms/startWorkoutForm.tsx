@@ -92,7 +92,7 @@ const StartWorkoutForm = ({
 
 	return (
 		<FormProvider {...methods}>
-			<form className="mt-3" method="POST" onSubmit={handleSubmit(onSubmit)}>
+			<form method="POST" onSubmit={handleSubmit(onSubmit)}>
 				<div className="relative">
 					<Select
 						{...register("type", { required: true })}

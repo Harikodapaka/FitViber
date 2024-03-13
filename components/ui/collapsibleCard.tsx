@@ -14,15 +14,14 @@ const CollapsibleCard = forwardRef<HTMLDivElement, CollapsibleCardProps>(
 	({ header, children, className, ...rest }, ref) => {
 		const [visible, setVisible] = useState(false);
 		return (
-			<Card
-				onClick={() => {
-					setVisible(!visible);
-				}}
-				className={className}
-				ref={ref}
-				{...rest}
-			>
-				<header>{header}</header>
+			<Card className={className} ref={ref} {...rest}>
+				<header
+					onClick={() => {
+						setVisible(!visible);
+					}}
+				>
+					{header}
+				</header>
 				{visible && <main>{children}</main>}
 			</Card>
 		);
