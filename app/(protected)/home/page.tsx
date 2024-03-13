@@ -23,7 +23,7 @@ const HomePage = async () => {
 					</CollapsibleCard>
 				))
 			) : (
-				<p className="test-base">No Workouts found</p>
+				<p className="text-base">No Workouts found</p>
 			)}
 		</div>
 	);
