@@ -8,7 +8,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 const APP_NAME = "FitViber";
-const APP_DEFAULT_TITLE = "Your workout wiz";
+const APP_DEFAULT_TITLE = "Fit Viber | Your workout wiz";
 const APP_TITLE_TEMPLATE = "%s - FitViber";
 const APP_DESCRIPTION = "Your workout wiz";
 

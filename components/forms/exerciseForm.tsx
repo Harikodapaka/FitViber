@@ -1,4 +1,5 @@
 import {
+	Controller,
 	FieldArrayWithId,
 	UseFieldArrayRemove,
 	useFormContext,
@@ -9,18 +10,22 @@ import Input from "@/components/ui/input";
 import Select from "@/components/ui/select";
 import Card from "@/components/ui/card";
 import { WorkoutSchemaType } from "@/components/forms/schemas/workoutSchema";
+import Autocomplete from "@/components/ui/autoComplete";
 import { MdDelete } from "react-icons/md";
 
 export default function ExerciseForm({
 	fields,
 	remove,
+	exerciseNames,
 }: {
 	remove: UseFieldArrayRemove;
 	fields: FieldArrayWithId<WorkoutSchemaType, "exercises", "key">[];
+	exerciseNames: string[];
 }) {
 	const {
 		register,
 		watch,
+		control,
 		formState: { errors },
 	} = useFormContext<WorkoutSchemaType>();
 
@@ -30,7 +35,7 @@ export default function ExerciseForm({
 		<>
 			{fields.map((exercise, i) => (
 				<Card key={exercise.name + i} className="my-2">
-					<div className="flex justify-end absolute top-2 right-4">
+					<div className="flex justify-end absolute top-2 right-4 z-10">
 						<Button
 							className="p-2.5"
 							onClick={() => {
@@ -41,33 +46,61 @@ export default function ExerciseForm({
 							<span className="sr-only">Delete Exercise {exercise.name}</span>
 						</Button>
 					</div>
-					<Input
-						id={`exercise-name-${i}`}
-						label="Exercise Name"
-						error={errors.exercises?.[i]?.name?.message}
-						required
-						{...register(`exercises.${i}.name`)}
+					<Controller
+						control={control}
+						name={`exercises.${i}.name`}
+						render={({
+							field: { onChange, value, onBlur, ref, disabled, name },
+						}) => (
+							<Autocomplete
+								suggestions={exerciseNames}
+								id={`exercise-name-${i}`}
+								label="Exercise Name"
+								error={errors.exercises?.[i]?.name?.message}
+								required
+								onBlur={onBlur}
+								value={value}
+								disabled={disabled}
+								onChange={onChange}
+								name={name}
+								ref={ref}
+							/>
+						)}
 					/>
 					<div className="flex flex-col xs:flex-row xs:items-start xs:gap-3">
-						<Input
-							id={`exercise-duration-${i}`}
-							type="number"
-							label="Exercise Duration"
-							error={errors.exercises?.[i]?.duration?.message}
-							addOnText="Mins"
-							className="pr-10"
-							containerClasses="flex-grow"
-							required
-							{...register(`exercises.${i}.duration`)}
+						<Controller
+							control={control}
+							name={`exercises.${i}.duration`}
+							render={({ field }) => (
+								<Input
+									id={`exercise-duration-${i}`}
+									type="number"
+									label="Exercise Duration"
+									error={errors.exercises?.[i]?.duration?.message}
+									addOnText="Mins"
+									className="pr-10"
+									containerClasses="flex-grow"
+									required
+									{...field}
+									value={field.value || ""}
+								/>
+							)}
 						/>
-						<Input
-							id={`exercise-calories-${i}`}
-							type="number"
-							label="Calories Burned"
-							containerClasses="flex-grow"
-							error={errors.exercises?.[i]?.calories?.message}
-							required
-							{...register(`exercises.${i}.calories`)}
+						<Controller
+							control={control}
+							name={`exercises.${i}.calories`}
+							render={({ field }) => (
+								<Input
+									id={`exercise-calories-${i}`}
+									type="number"
+									label="Calories Burned"
+									containerClasses="flex-grow"
+									error={errors.exercises?.[i]?.calories?.message}
+									required
+									{...field}
+									value={field.value || ""}
+								/>
+							)}
 						/>
 					</div>
 					{workoutType !== WorkoutType.CARDIO && (

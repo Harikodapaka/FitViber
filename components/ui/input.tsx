@@ -4,12 +4,13 @@ import React, { forwardRef } from "react";
 import FormLabel from "./formLabel";
 import { cn } from "@/lib/utils";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps
+	extends React.InputHTMLAttributes<HTMLInputElement> {
 	id: string;
 	label: string;
 	className?: string;
 	error?: string;
-	addOnText?: string;
+	addOnText?: React.ReactNode;
 	containerClasses?: string;
 }
 
@@ -42,7 +43,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 						{...rest}
 					/>
 					{addOnText && (
-						<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+						<div
+							className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
+							aria-hidden="true"
+						>
 							<span className="text-gray-500 sm:text-sm">{addOnText}</span>
 						</div>
 					)}
