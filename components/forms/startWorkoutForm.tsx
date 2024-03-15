@@ -22,8 +22,10 @@ import { useRouter } from "next/navigation";
 
 const StartWorkoutForm = ({
 	workoutInProgress,
+	exerciseNames,
 }: {
 	workoutInProgress?: WorkoutWithExercises | null;
+	exerciseNames: string[];
 }) => {
 	const router = useRouter();
 
@@ -124,7 +126,11 @@ const StartWorkoutForm = ({
 							</Button>
 						)}
 					</div>
-					<ExerciseForm fields={fields} remove={remove} />
+					<ExerciseForm
+						fields={fields}
+						remove={remove}
+						exerciseNames={exerciseNames}
+					/>
 				</div>
 				<SubmitButton
 					disabled={!isDirty || !isValid || isSubmitting}

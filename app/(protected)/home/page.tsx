@@ -14,6 +14,7 @@ const HomePage = async () => {
 				workouts?.map((workout) => (
 					<CollapsibleCard
 						key={workout.id}
+						id={`workout-${workout.id}`}
 						className="my-2 text-sm rounded-2xl"
 						header={<WorkoutCardHeader workout={workout} />}
 					>

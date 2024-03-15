@@ -26,25 +26,32 @@ export const WorkoutCardHeader = ({
 							statusInprogress && "animate-pulse bg-red-100 text-red-800"
 						}`}
 					>
-						{getStatusIcon(status)} {capitalizeFirstLetter(status)}
+						<span aria-hidden="true">{getStatusIcon(status)} </span>
+						{capitalizeFirstLetter(status)}
 					</Badge>
 					<div className="flex gap-1 flex-wrap">
 						{hasValue(totalCalories) && (
 							<p className="text-2xl md:text-3xl/6 font-bold text-orange-600 mt-2">
-								{`🔥 ${totalCalories} Kcal`}
+								<span aria-hidden="true">🔥 </span>
+								{`${totalCalories} Kcal`}
 							</p>
 						)}
 						<Badge className="text-sm mt-2 py-1 bg-gray-100 text-gray-800">
-							{`${getWorkoutIcon(type)} ${capitalizeFirstLetter(type)}`}
+							<span aria-hidden="true">{getWorkoutIcon(type)} </span>
+							{capitalizeFirstLetter(type)}
 						</Badge>
 						{hasValue(duration) && (
 							<Badge className="text-sm mt-2 py-1 bg-gray-100 text-gray-800">
-								{`⏰ ${duration} Mins`}
+								<span aria-hidden="true">⏰</span>
+								{` ${duration} Mins`}
 							</Badge>
 						)}
 					</div>
 				</div>
-				<p className="text-xs text-gray-500">{`🗓️ ${createdAt.toDateString()}`}</p>
+				<p className="text-xs text-gray-500">
+					<span aria-hidden="true">🗓️ </span>
+					{createdAt.toDateString()}
+				</p>
 			</div>
 			<div className="flex w-24 h-24 rounded-full items-center justify-center self-center shrink-0">
 				{statusInprogress ? (
