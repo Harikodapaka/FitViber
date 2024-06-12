@@ -16,7 +16,10 @@ import { createOrUpdateWorkout } from "@/actions/createOrUpdateWorkout";
 import { enumToOptions } from "@/lib/utils";
 import { SubmitButton } from "@/components/submitButton";
 import Button from "@/components/ui/button";
-import { GiWeightLiftingUp, GiStopwatch } from "react-icons/gi";
+import { AiOutlinePlus } from "react-icons/ai";
+import { VscDebugStart } from "react-icons/vsc";
+import { FaCheck } from "react-icons/fa6";
+import { AiOutlineClose } from "react-icons/ai";
 import { stopWorkout as _stopWorkout } from "@/actions/stopWorkout";
 import { useRouter } from "next/navigation";
 
@@ -95,7 +98,7 @@ const StartWorkoutForm = ({
 	return (
 		<FormProvider {...methods}>
 			<form method="POST" onSubmit={handleSubmit(onSubmit)}>
-				<div className="relative">
+				<div className="relative pb-14">
 					<Select
 						{...register("type", { required: true })}
 						label="Workout Type"
@@ -105,39 +108,40 @@ const StartWorkoutForm = ({
 						error={errors.type?.message}
 						required
 					/>
-					<div className="flex">
-						<Button
-							onClick={() =>
-								append({ id: "", duration: 0, name: "", calories: 0 })
-							}
-							className="my-3 mx-auto gap-3"
-						>
-							<GiWeightLiftingUp size={20} aria-hidden />
-							<span>Add Exercise</span>
-						</Button>
-						{workoutInProgress?.id && (
-							<Button
-								type="button"
-								onClick={stopWorkout}
-								className="my-3 mx-auto bg-red-700 gap-3 hover:bg-red-600 focus:bg-red-600"
-							>
-								<GiStopwatch size={20} className="animate-bounce" aria-hidden />
-								<span>Stop Workout</span>
-							</Button>
-						)}
-					</div>
 					<ExerciseForm
 						fields={fields}
 						remove={remove}
 						exerciseNames={exerciseNames}
 					/>
 				</div>
-				<SubmitButton
-					disabled={!isDirty || !isValid || isSubmitting}
-					submitting={isSubmitting}
-				>
-					{`${workoutInProgress ? "Update" : "Start"} Workout`}
-				</SubmitButton>
+				<div className="flex w-full absolute bottom-[55px] left-0 justify-around bg-white rounded-t-xl z-20 border border-zinc-200 border-b-0">
+					<Button
+						onClick={() =>
+							append({ id: "", duration: 0, name: "", calories: 0 })
+						}
+						className="my-3 gap-3"
+					>
+						<AiOutlinePlus size={20} aria-hidden /> Add
+					</Button>
+					{workoutInProgress?.id && (
+						<Button
+							type="button"
+							onClick={stopWorkout}
+							className="my-3 bg-red-700 gap-3 hover:bg-red-600 focus:bg-red-600"
+						>
+							<AiOutlineClose size={20} aria-hidden /> Stop
+						</Button>
+					)}
+
+					<SubmitButton
+						disabled={!isDirty || !isValid || isSubmitting}
+						submitting={isSubmitting}
+						className="my-3 gap-3 min-w-24"
+					>
+						{workoutInProgress ? <FaCheck /> : <VscDebugStart />}
+						${workoutInProgress ? "Update" : "Start"}
+					</SubmitButton>
+				</div>
 			</form>
 		</FormProvider>
 	);
