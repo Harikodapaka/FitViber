@@ -18,7 +18,7 @@ export const SubmitButton = ({
 		<Button
 			type="submit"
 			disabled={disabled}
-			className={cn("mt-4 w-full", className)}
+			className={cn(className)}
 		>
 			{submitting ? (
 				<div role="status">
