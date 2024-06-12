@@ -139,7 +139,7 @@ const StartWorkoutForm = ({
 						className="my-3 gap-3 min-w-24"
 					>
 						{workoutInProgress ? <FaCheck /> : <VscDebugStart />}
-						${workoutInProgress ? "Update" : "Start"}
+						{workoutInProgress ? "Update" : "Start"}
 					</SubmitButton>
 				</div>
 			</form>
